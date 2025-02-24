@@ -19,6 +19,7 @@ TTA = True
 def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("--experiment", required=True, type=str)
+    parser.add_argument('-- video_id', required=True,type=str)
     parser.add_argument("--folds", default="all", type=str)
     parser.add_argument("--gpu_id", default=0, type=int)
     parser.add_argument("--challenge", action="store_true")
@@ -59,13 +60,16 @@ def predict_video(predictor: MultiDimStackerPredictor,
                   half: int,
                   game_dir: Path,
                   game_prediction_dir: Path,
-                  use_saved_predictions: bool) -> dict[str, tuple]:
-    video_path = game_dir / f"{RESOLUTION}.{constants.videos_extension}" #f"{half}_{RESOLUTION}.mkv"
+                  use_saved_predictions: bool
+                  video_id : str) -> dict[str, tuple]:
+    # video_path = game_dir / f"{RESOLUTION}.{constants.videos_extension}" #f"{half}_{RESOLUTION}.mkv"
+    video_path = game_dir / video_id
     video_info = get_video_info(video_path)
     print("Video info:", video_info)
     assert video_info["fps"] == constants.video_fps
 
-    raw_predictions_path = game_prediction_dir / f"{half}_raw_predictions.npz"
+    # raw_predictions_path = game_prediction_dir / f"{half}_raw_predictions.npz"
+    raw_predictions_path = game_prediction_dir / f"{video_id}_raw_predictions.npz"
 
     if use_saved_predictions:
         with np.load(str(raw_predictions_path)) as raw_predictions:
@@ -134,16 +138,13 @@ def predict_fold(experiment: str, fold, gpu_id: int,
 
 if __name__ == "__main__":
     args = parse_arguments()
+    predict_video(
+        half = 1 , 
+        game_dir = constants.inference_dir,
+        game_prediction_dir = constants.predictions_dir,
+        used_saved_predictions = False,
+        video_id = args.video_id
+    
+    )
 
-    if args.folds == "train":
-        predict_fold(args.experiment, "train", args.gpu_id,
-                     args.challenge, args.use_saved_predictions)
-    else:
-        if args.folds == "all":
-            folds = constants.folds
-        else:
-            folds = [int(fold) for fold in args.folds.split(",")]
 
-        for fold in folds:
-            predict_fold(args.experiment, fold, args.gpu_id,
-                         args.challenge, args.use_saved_predictions)
