@@ -7,7 +7,7 @@ import numpy as np
 from src.ball_action.annotations import raw_predictions_to_actions, prepare_game_spotting_results
 from src.utils import get_best_model_path, get_video_info
 from src.predictors import MultiDimStackerPredictor
-from src.frame_fetchers import NvDecFrameFetcher
+from src.frame_fetchers import OpencvFrameFetcher
 from src.ball_action import constants
 
 
@@ -30,7 +30,7 @@ def parse_arguments():
 def get_raw_predictions(predictor: MultiDimStackerPredictor,
                         video_path: Path,
                         frame_count: int) -> tuple[list[int], np.ndarray]:
-    frame_fetcher = NvDecFrameFetcher(video_path, gpu_id=predictor.device.index)
+    frame_fetcher = OpencvFrameFetcher(video_path, gpu_id=predictor.device.index)
     frame_fetcher.num_frames = frame_count
 
     indexes_generator = predictor.indexes_generator
@@ -138,7 +138,9 @@ def predict_fold(experiment: str, fold, gpu_id: int,
 
 if __name__ == "__main__":
     args = parse_arguments()
+    predictor = MultiDimStackerPredictor(constants.model_path, device=f"cuda:{gpu_id}", tta=TTA)
     predict_video(
+        predictor=predictor,
         half = 1 , 
         game_dir = constants.inference_dir,
         game_prediction_dir = constants.predictions_dir,
