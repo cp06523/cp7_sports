@@ -1,6 +1,7 @@
 from src.constants import data_dir, soccernet_dir, configs_dir
 
 ball_action_dir = data_dir / "ball_action"
+inference_dir = ball_action_dir / "inference"
 configs_dir = configs_dir / "ball_action"
 experiments_dir = ball_action_dir / "experiments"
 predictions_dir = ball_action_dir / "predictions"
