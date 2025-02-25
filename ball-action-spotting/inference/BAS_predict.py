@@ -18,7 +18,7 @@ TTA = True
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--experiment", required=True, type=str)
+    parser.add_argument("--experiment", required=False, type=str)
     parser.add_argument('-- video_id', required=True,type=str)
     parser.add_argument("--folds", default="all", type=str)
     parser.add_argument("--gpu_id", default=0, type=int)
