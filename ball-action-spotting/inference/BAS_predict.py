@@ -60,7 +60,7 @@ def predict_video(predictor: MultiDimStackerPredictor,
                   half: int,
                   game_dir: Path,
                   game_prediction_dir: Path,
-                  use_saved_predictions: bool
+                  use_saved_predictions: bool,
                   video_id : str) -> dict[str, tuple]:
     # video_path = game_dir / f"{RESOLUTION}.{constants.videos_extension}" #f"{half}_{RESOLUTION}.mkv"
     video_path = game_dir / video_id
