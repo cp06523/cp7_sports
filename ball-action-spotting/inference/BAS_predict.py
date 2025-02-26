@@ -112,30 +112,6 @@ def predict_game(predictor: MultiDimStackerPredictor,
     prepare_game_spotting_results(half2class_actions, game, prediction_dir)
 
 
-def predict_fold(experiment: str, fold, gpu_id: int,
-                 challenge: bool, use_saved_predictions: bool):
-    print(f"Predict games: {experiment=}, {fold=}, {gpu_id=} {challenge=}")
-    experiment_dir = constants.experiments_dir / experiment / f"fold_{fold}"
-    model_path = get_best_model_path(experiment_dir)
-    print("Model path:", model_path)
-    predictor = MultiDimStackerPredictor(model_path, device=f"cuda:{gpu_id}", tta=TTA)
-    if challenge:
-        data_split = "challenge"
-        games = constants.challenge_games
-    else:
-        if fold == 'train':
-            data_split = 'test'
-            games = constants.fold2games[5] + constants.fold2games[6]
-        else:
-            data_split = "cv"
-            games = constants.fold2games[fold]
-    prediction_dir = constants.predictions_dir / experiment / data_split / f"fold_{fold}"
-    if not prediction_dir.exists():
-        prediction_dir.mkdir(parents=True, exist_ok=True)
-    else:
-        print(f"Folder {prediction_dir} already exists.")
-    for game in games:
-        predict_game(predictor, game, prediction_dir, use_saved_predictions)
 
 
 if __name__ == "__main__":
