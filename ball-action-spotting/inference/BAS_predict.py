@@ -1,8 +1,10 @@
 import argparse
 from pathlib import Path
-
 from tqdm import tqdm
 import numpy as np
+import sys
+import os
+sys.path.append(os.getcwd())
 
 from src.ball_action.annotations import raw_predictions_to_actions, prepare_game_spotting_results
 from src.utils import get_best_model_path, get_video_info
