@@ -6,7 +6,7 @@ configs_dir = configs_dir / "ball_action"
 experiments_dir = ball_action_dir / "experiments"
 predictions_dir = ball_action_dir / "predictions"
 visualizations_dir = ball_action_dir / "visualizations"
-model_path = '/content/drive/MyDrive/SoccerNet/ball-action-spotting/data/ball_action (1)/experiments/sampling_weights_001/fold_0/model-029-0.834085.pth'
+model_path = '/content/drive/MyDrive/SoccerNet/ball-action-spotting/experiments_new/fold_0/model-011-0.371396.pth'
 soccernet_dir = soccernet_dir / "spotting-ball-2024"
 
 labels_filename = "Labels-ball.json"
