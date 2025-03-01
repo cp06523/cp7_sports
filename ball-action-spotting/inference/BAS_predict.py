@@ -21,7 +21,7 @@ TTA = True
 def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("--experiment", required=False, type=str)
-    parser.add_argument('-- video_id', required=True,type=str)
+    parser.add_argument('--video_id', required=True,type=str)
     parser.add_argument("--folds", default="all", type=str)
     parser.add_argument("--gpu_id", default=0, type=int)
     parser.add_argument("--challenge", action="store_true")
@@ -116,7 +116,7 @@ def predict_game(predictor: MultiDimStackerPredictor,
 
 if __name__ == "__main__":
     args = parse_arguments()
-    predictor = MultiDimStackerPredictor(constants.model_path, device=f"cuda:{gpu_id}", tta=TTA)
+    predictor = MultiDimStackerPredictor(constants.model_path, device=f"cuda:{args.gpu_id}", tta=TTA)
     predict_video(
         predictor=predictor,
         half = 1 , 
